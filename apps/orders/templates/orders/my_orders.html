@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Orders — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="checkout-page">
+  <h1>My Orders</h1>
+
+  {% if orders %}
+    {% for order in orders %}
+      <div class="confirmation-details" style="margin-top: var(--space-md);">
+        <p style="font-weight: 600;">{{ order.order_number }}</p>
+        <p>Status: {{ order.get_order_status_display }} — ${{ order.grand_total }}</p>
+        <p style="font-size: 0.85rem; opacity: 0.7;">{{ order.created_at|date:"F j, Y" }}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p style="margin-top: var(--space-md);">You haven't placed any orders yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Track Your Order — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="checkout-page">
+  <h1>Track Your Order</h1>
+
+  {% if messages %}
+    {% for message in messages %}
+      <p class="error-message">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" class="checkout-form" style="margin-top: var(--space-md);">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="order_number">Order Number</label>
+      <input type="text" id="order_number" name="order_number" placeholder="e.g. KH-20260816-A1B2" required>
+    </div>
+    <div class="form-group">
+      <label for="contact">Email or Phone Number</label>
+      <input type="text" id="contact" name="contact" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Track Order</button>
+  </form>
+
+  {% if order %}
+    <div class="confirmation-details" style="margin-top: var(--space-lg);">
+      <p style="font-weight: 600;">Order {{ order.order_number }}</p>
+      <p>Status: <strong>{{ order.get_order_status_display }}</strong></p>
+      <p>Placed on: {{ order.created_at|date:"F j, Y" }}</p>
+
+      <p style="margin-top: var(--space-sm); font-weight: 600;">Items</p>
+      {% for item in order.items.all %}
+        <div class="checkout-summary__row">
+          <span>{{ item.product_name }} x{{ item.quantity }}</span>
+          <span>${{ item.line_total }}</span>
+        </div>
+      {% endfor %}
+
+      <div class="checkout-summary__row" style="font-weight: 700; border-top: 1px solid var(--color-border); margin-top: 0.5rem; padding-top: 0.5rem;">
+        <span>Grand Total</span>
+        <span>${{ order.grand_total }}</span>
+      </div>
+
+      {% if order.order_status == "pending" %}
+        <form method="post" action="{% url 'orders:cancel_order' order.order_number %}" style="margin-top: var(--space-md);"
+              onsubmit="return confirm('Are you sure you want to cancel this order?');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-secondary" style="border-color: #c62828; color: #c62828;">Cancel Order</button>
+        </form>
+      {% elif order.order_status != "delivered" and order.order_status != "cancelled" %}
+        <p style="margin-top: var(--space-md); font-size: 0.9rem; opacity: 0.8;">
+          This order can no longer be self-cancelled. Please contact support if you need help.
+        </p>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
