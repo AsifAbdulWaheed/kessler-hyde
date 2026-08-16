@@ -1,0 +1,62 @@
+/* Scroll Showcase Section */
+.showcase {
+  padding: var(--space-xl) var(--space-md);
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.showcase__heading {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.showcase__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 700px) {
+  .showcase__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Scroll-triggered animation — hidden until scrolled into view */
+.showcase-item {
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.showcase-item--left {
+  transform: translateX(-40px);
+}
+
+.showcase-item--right {
+  transform: translateX(40px);
+}
+
+.showcase-item.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .showcase-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Simplify on mobile: fade only, no horizontal slide */
+@media (max-width: 700px) {
+  .showcase-item--left,
+  .showcase-item--right {
+    transform: translateY(20px);
+  }
+  .showcase-item.is-visible {
+    transform: translateY(0);
+  }
+}

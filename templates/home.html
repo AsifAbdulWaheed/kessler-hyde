@@ -2,6 +2,8 @@
 {% load static %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/hero.css' %}">
+<link rel="stylesheet" href="{% static 'css/catalog.css' %}">
+<link rel="stylesheet" href="{% static 'css/showcase.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -22,4 +24,30 @@
     [ Hero Product Image ]
   </div>
 </section>
+
+{% if featured_products %}
+<section class="showcase">
+  <h2 class="showcase__heading">Best Leather Products</h2>
+  <div class="showcase__grid">
+    {% for product in featured_products %}
+      <a href="{% url 'catalog:product_detail' product.slug %}"
+         class="product-card showcase-item {% cycle 'showcase-item--left' 'showcase-item--right' %}">
+        <div class="product-card__image">
+          {% with product.images.first as img %}
+            {% if img %}
+              <img src="{{ img.image.url }}" alt="{{ product.name }}">
+            {% else %}
+              [ No Image ]
+            {% endif %}
+          {% endwith %}
+        </div>
+        <div class="product-card__body">
+          <p class="product-card__name">{{ product.name }}</p>
+          <p class="product-card__price">${{ product.regular_price }}</p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 {% endblock %}

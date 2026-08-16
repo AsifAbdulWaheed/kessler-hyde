@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ category.name }} — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/catalog.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="category-header">
+  <h1>{{ category.name }}</h1>
+</div>
+
+{% if subcategories %}
+<div class="filter-chips">
+  <a href="{% url 'catalog:category_page' category.slug %}" class="filter-chip is-active">All</a>
+  {% for sub in subcategories %}
+    <a href="{% url 'catalog:category_page' sub.slug %}" class="filter-chip">{{ sub.name }}</a>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if products %}
+<div class="product-grid">
+  {% for product in products %}
+    <a href="{% url 'catalog:product_detail' product.slug %}" class="product-card">
+      <div class="product-card__image">
+        {% with product.images.first as img %}
+          {% if img %}
+            <img src="{{ img.image.url }}" alt="{{ product.name }}">
+          {% else %}
+            [ No Image ]
+          {% endif %}
+        {% endwith %}
+      </div>
+      <div class="product-card__body">
+        <p class="product-card__name">{{ product.name }}</p>
+        <p class="product-card__price">
+          {% if product.is_on_sale and product.sale_price %}
+            <span class="original-price">${{ product.regular_price }}</span>
+            <span>${{ product.sale_price }}</span>
+          {% else %}
+            <span>${{ product.regular_price }}</span>
+          {% endif %}
+        </p>
+      </div>
+    </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  <p>No products in this category yet.</p>
+</div>
+{% endif %}
+{% endblock %}

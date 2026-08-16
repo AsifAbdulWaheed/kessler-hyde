@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.name }} — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product-detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="product-detail">
+  <div class="product-gallery">
+    <div class="product-gallery__main" data-main-image>
+      {% with product.images.first as primary_img %}
+        {% if primary_img %}
+          <img src="{{ primary_img.image.url }}" alt="{{ product.name }}">
+        {% else %}
+          [ No Image Available ]
+        {% endif %}
+      {% endwith %}
+    </div>
+    {% if product.images.count > 1 %}
+    <div class="product-gallery__thumbs">
+      {% for img in product.images.all %}
+        <div class="product-gallery__thumb {% if forloop.first %}is-active{% endif %}" data-thumb data-full="{{ img.image.url }}">
+          <img src="{{ img.image.url }}" alt="{{ product.name }}">
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="product-info">
+    <p class="product-info__category">{{ product.category.name }}</p>
+    <h1>{{ product.name }}</h1>
+
+    <p class="product-info__price">
+      {% if product.is_on_sale and product.sale_price %}
+        <span class="original-price">${{ product.regular_price }}</span>
+        <span>${{ product.sale_price }}</span>
+      {% else %}
+        <span>${{ product.regular_price }}</span>
+      {% endif %}
+    </p>
+
+    <p class="product-info__description">{{ product.description|default:"A timeless piece, crafted to last." }}</p>
+
+    <dl class="product-info__meta">
+      <dt>Leather Type</dt>
+      <dd>{{ product.leather_type }}</dd>
+      {% if product.size_label %}
+        <dt>Size</dt>
+        <dd>{{ product.size_label }}{% if product.size_dimensions %} — {{ product.size_dimensions }}{% endif %}</dd>
+      {% endif %}
+    </dl>
+
+    {% if product.colors.all %}
+    <div class="product-info__colors">
+      {% for color in product.colors.all %}
+        <div class="color-swatch" style="background-color: {{ color.color_hex|default:'#ccc' }};" title="{{ color.color_name }}"></div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <p class="product-info__stock">
+      {% if product.stock_quantity > 0 %}
+        <span class="stock-in">In Stock ({{ product.stock_quantity }} available)</span>
+      {% else %}
+        <span class="stock-out">Out of Stock</span>
+      {% endif %}
+    </p>
+
+    <div class="product-info__quantity">
+      <label for="qty">Quantity:</label>
+      <input type="number" id="qty" class="qty-input" value="1" min="1" max="{{ product.stock_quantity }}">
+    </div>
+
+    <div class="product-info__actions">
+      <button class="btn btn-primary" {% if product.stock_quantity == 0 %}disabled{% endif %}>Add to Cart</button>
+      <button class="btn btn-secondary" {% if product.stock_quantity == 0 %}disabled{% endif %}>Buy Now</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
