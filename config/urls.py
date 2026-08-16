@@ -7,6 +7,7 @@ from apps.catalog import views as catalog_views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", catalog_views.home_page, name="home"),
+    path("cart/", include("apps.cart.urls")),
     path("", include("apps.catalog.urls")),
 ]
 

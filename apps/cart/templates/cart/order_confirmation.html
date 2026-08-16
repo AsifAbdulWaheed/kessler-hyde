@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order Confirmed — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="confirmation-page">
+  <p class="confirmation-badge">✅ Order Confirmed</p>
+  <p class="order-number">{{ order.order_number }}</p>
+  <p style="margin-bottom: var(--space-md);">Thank you, {{ order.full_name }}! We've received your order.</p>
+
+  <div class="confirmation-details">
+    <p style="font-weight: 600; margin-bottom: 0.75rem;">Order Items</p>
+    {% for item in order.items.all %}
+      <div class="checkout-summary__row">
+        <span>{{ item.product_name }} x{{ item.quantity }}{% if item.color %} ({{ item.color }}){% endif %}</span>
+        <span>${{ item.line_total }}</span>
+      </div>
+    {% endfor %}
+
+    <div class="checkout-summary__row" style="border-top: 1px solid var(--color-border); margin-top: 0.5rem; padding-top: 0.5rem;">
+      <span>Subtotal</span>
+      <span>${{ order.subtotal }}</span>
+    </div>
+    <div class="checkout-summary__row">
+      <span>Delivery Charge</span>
+      <span>{% if order.delivery_charge == 0 %}Free{% else %}${{ order.delivery_charge }}{% endif %}</span>
+    </div>
+    <div class="checkout-summary__row" style="font-weight: 700; font-size: 1.1rem;">
+      <span>Grand Total</span>
+      <span>${{ order.grand_total }}</span>
+    </div>
+
+    <p style="margin-top: var(--space-md); font-weight: 600;">Delivery Details</p>
+    <p>{{ order.full_name }}</p>
+    <p>{{ order.address }}, {{ order.city }}, {{ order.postal_code }}</p>
+    <p>{{ order.phone }} | {{ order.email }}</p>
+
+    <p style="margin-top: var(--space-md); font-weight: 600;">Payment Method</p>
+    <p>Cash on Delivery (COD)</p>
+
+    <p style="margin-top: var(--space-md); font-weight: 600;">Order Status</p>
+    <p>{{ order.get_order_status_display }}</p>
+  </div>
+
+  <a href="/" class="btn btn-primary" style="margin-top: var(--space-lg); display: inline-block;">Continue Shopping</a>
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Your Cart — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="cart-page">
+  <h1>Your Cart</h1>
+
+  {% if messages %}
+    {% for message in messages %}
+      <p style="color: #2e7d32; margin-top: 1rem;">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  {% if cart %}
+    {% for item in cart %}
+      <div class="cart-item">
+        <div class="cart-item__image">
+          {% with item.product.images.first as img %}
+            {% if img %}<img src="{{ img.image.url }}" alt="{{ item.product.name }}">{% endif %}
+          {% endwith %}
+        </div>
+        <div class="cart-item__details">
+          <p class="cart-item__name">{{ item.product.name }}</p>
+          <p class="cart-item__meta">
+            {% if item.color %}Color: {{ item.color }} {% endif %}
+            {% if item.size %} | Size: {{ item.size }}{% endif %}
+          </p>
+          <form action="{% url 'cart:cart_update' item.product.id %}" method="post" class="cart-item__qty-form">
+            {% csrf_token %}
+            <label>Qty:</label>
+            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock_quantity }}">
+            <button type="submit" class="btn btn-secondary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">Update</button>
+          </form>
+        </div>
+        <div class="cart-item__price">${{ item.line_total }}</div>
+        <form action="{% url 'cart:cart_remove' item.product.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="cart-item__remove">Remove</button>
+        </form>
+      </div>
+    {% endfor %}
+
+    <div class="cart-summary">
+      <div class="cart-summary__row">
+        <span>Subtotal</span>
+        <span>${{ subtotal }}</span>
+      </div>
+      <div class="cart-summary__row">
+        <span>Estimated Shipping</span>
+        <span>
+          {% if estimated_shipping == 0 %}Free{% else %}${{ estimated_shipping }}{% endif %}
+        </span>
+      </div>
+      <div class="cart-summary__row cart-summary__row--total">
+        <span>Estimated Total</span>
+        <span>${{ estimated_total }}</span>
+      </div>
+      <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 0.5rem;">
+        Final totals are calculated at checkout.
+      </p>
+      <div class="cart-summary__actions">
+        <a href="/" class="btn btn-secondary">Continue Shopping</a>
+        <a href="{% url 'cart:checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+      </div>
+    </div>
+  {% else %}
+    <p style="margin-top: 1rem;">Your cart is empty.</p>
+    <a href="/" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Continue Shopping</a>
+  {% endif %}
+</div>
+{% endblock %}
