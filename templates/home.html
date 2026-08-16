@@ -1,10 +1,25 @@
 {% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/hero.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="container" style="padding: 4rem 1.5rem;">
-  <h1>Kessler & Hyde</h1>
-  <p style="margin-top: 1rem; max-width: 500px;">
-    Timeless Leather, Made to Last. This is a Phase 1 placeholder homepage —
-    the real hero section and product showcase will be built in a later phase.
-  </p>
-</div>
+<section class="hero">
+  <div class="hero__content">
+    <p class="hero__eyebrow">Kessler & Hyde</p>
+    <h1 class="hero__heading">Timeless Leather, Made to Last</h1>
+    <p class="hero__description">
+      Crafted goods built for generations, not seasons. Explore wallets,
+      bags, and accessories designed to age beautifully with you.
+    </p>
+    <div class="hero__actions">
+      <a href="#" class="btn btn-primary">Shop Now</a>
+      <a href="#" class="btn btn-secondary">Our Story</a>
+    </div>
+  </div>
+  <div class="hero__image-placeholder">
+    [ Hero Product Image ]
+  </div>
+</section>
 {% endblock %}

@@ -24,7 +24,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # Kessler & Hyde apps will be added here starting in Phase 2
+    # Kessler & Hyde apps
+    "apps.catalog",
+    "apps.accounts",
+     "apps.orders",
+      "apps.returns",
+      "apps.payments",
+       "apps.shipping",
+        "apps.core",
 ]
 
 MIDDLEWARE = [
