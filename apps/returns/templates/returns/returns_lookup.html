@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Returns & Exchanges — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="checkout-page">
+  <h1>Returns & Exchanges</h1>
+  <p style="margin: 0.5rem 0 var(--space-md); opacity: 0.8;">
+    Returns and exchanges are accepted within {{ return_window_days }} days of delivery.
+  </p>
+
+  {% if messages %}
+    {% for message in messages %}
+      <p class="error-message">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" class="checkout-form">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="order_number">Order Number</label>
+      <input type="text" id="order_number" name="order_number" placeholder="e.g. KH-20260816-A1B2" required>
+    </div>
+    <div class="form-group">
+      <label for="contact">Email or Phone Number</label>
+      <input type="text" id="contact" name="contact" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Find My Order</button>
+  </form>
+
+  {% if order %}
+    <div class="confirmation-details" style="margin-top: var(--space-lg);">
+      <p style="font-weight: 600;">Order {{ order.order_number }}</p>
+
+      {% for entry in items_with_eligibility %}
+        <div class="checkout-summary__row" style="align-items: center;">
+          <span>{{ entry.item.product_name }} (Qty: {{ entry.item.quantity }}, {{ entry.remaining }} eligible)</span>
+          {% if entry.remaining > 0 %}
+            <a href="{% url 'returns:submit_return' entry.item.id %}" class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Request Return/Exchange</a>
+          {% else %}
+            <span style="font-size: 0.85rem; opacity: 0.6;">No eligible units</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

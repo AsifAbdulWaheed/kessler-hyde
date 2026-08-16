@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Request Return/Exchange — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="checkout-page">
+  <h1>Request Return/Exchange</h1>
+  <p style="margin: 0.5rem 0 var(--space-md);">
+    {{ order_item.product_name }} — up to {{ remaining }} unit(s) eligible
+  </p>
+
+  {% if messages %}
+    {% for message in messages %}
+      <p class="error-message">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" class="checkout-form" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Request Type</label>
+      <label style="font-weight: 400; display: inline-flex; align-items: center; gap: 0.4rem;">
+        <input type="radio" name="request_type" value="return" checked style="width: auto;"> Return
+      </label>
+      <label style="font-weight: 400; display: inline-flex; align-items: center; gap: 0.4rem; margin-left: 1rem;">
+        <input type="radio" name="request_type" value="exchange" style="width: auto;"> Exchange
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label for="quantity">Quantity</label>
+      <input type="number" id="quantity" name="quantity" value="{{ remaining }}" min="1" max="{{ remaining }}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="reason">Reason</label>
+      <input type="text" id="reason" name="reason" placeholder="e.g. Wrong size, defective, changed mind" required>
+    </div>
+
+    <div class="form-group">
+      <label for="notes">Additional Notes (optional)</label>
+      <textarea id="notes" name="notes" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="photo">Photo (optional — for damaged/defective items)</label>
+      <input type="file" id="photo" name="photo" accept="image/*">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Request</button>
+  </form>
+</div>
+{% endblock %}

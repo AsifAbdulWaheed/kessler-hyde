@@ -9,9 +9,9 @@ urlpatterns = [
     path("", catalog_views.home_page, name="home"),
     path("cart/", include("apps.cart.urls")),
     path("orders/", include("apps.orders.urls")),
+    path("returns/", include("apps.returns.urls")),
     path("", include("apps.catalog.urls")),
 ]
 
-# Serve uploaded media files during development only
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
