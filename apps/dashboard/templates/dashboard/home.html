@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+  <h1 class="dashboard__heading">Dashboard</h1>
+
+  <div class="dashboard__stats">
+    <div class="stat-card">
+      <p class="stat-card__value">{{ total_products }}</p>
+      <p class="stat-card__label">Total Products</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-card__value">{{ total_orders }}</p>
+      <p class="stat-card__label">Total Orders</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-card__value">${{ total_sales }}</p>
+      <p class="stat-card__label">Total Sales</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-card__value">{{ status_counts.pending }}</p>
+      <p class="stat-card__label">Pending Orders</p>
+    </div>
+  </div>
+
+  <div class="dashboard__stats">
+    <div class="stat-card">
+      <p class="stat-card__value">{{ status_counts.confirmed }}</p>
+      <p class="stat-card__label">Confirmed</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-card__value">{{ status_counts.processing }}</p>
+      <p class="stat-card__label">Processing</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-card__value">{{ status_counts.shipped }}</p>
+      <p class="stat-card__label">Shipped</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-card__value">{{ status_counts.delivered }}</p>
+      <p class="stat-card__label">Delivered</p>
+    </div>
+  </div>
+
+  <div class="dashboard__section">
+    <h3>Sales Trend — Last 7 Days</h3>
+    <div class="trend-bar">
+      {% for day in trend %}
+        <div style="flex: 1; text-align: center;">
+          <div class="trend-bar__col" style="height: {{ day.total|default:4 }}px; max-height: 90px;"></div>
+          <p class="trend-bar__label">{{ day.date|date:"D" }}<br>${{ day.total }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="dashboard__section">
+    <h3>Low-Stock Alerts (threshold: {{ low_stock_threshold }})</h3>
+    {% if low_stock_products %}
+      {% for product in low_stock_products %}
+        <div class="dashboard-row">
+          <span>{{ product.name }}</span>
+          <span class="low-stock-warning">{{ product.stock_quantity }} left — <a href="/admin/catalog/product/{{ product.id }}/change/">Restock</a></span>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="font-size: 0.9rem; opacity: 0.7;">No low-stock products.</p>
+    {% endif %}
+  </div>
+
+  <div class="dashboard__section">
+    <h3>Best-Selling Products</h3>
+    {% if best_sellers %}
+      {% for product in best_sellers %}
+        <div class="dashboard-row">
+          <span>{{ product.product_name }}</span>
+          <span>{{ product.total_quantity }} sold</span>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="font-size: 0.9rem; opacity: 0.7;">No sales data yet.</p>
+    {% endif %}
+  </div>
+
+  <div class="dashboard__section">
+    <h3>Recent Orders</h3>
+    {% for order in recent_orders %}
+      <div class="dashboard-row">
+        <span><a href="/admin/orders/order/{{ order.id }}/change/">{{ order.order_number }}</a> — {{ order.full_name }}</span>
+        <span><span class="status-badge">{{ order.get_order_status_display }}</span> ${{ order.grand_total }}</span>
+      </div>
+    {% endfor %}
+  </div>
+
+  <p style="margin-top: var(--space-md); font-size: 0.85rem;">
+    Manage products, categories, homepage content, and detailed order data in
+    <a href="/admin/" style="color: var(--color-secondary);">Django Admin</a>.
+  </p>
+</div>
+{% endblock %}

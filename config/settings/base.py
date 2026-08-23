@@ -33,6 +33,7 @@ INSTALLED_APPS = [
        "apps.shipping",
         "apps.core",
          "apps.cart",
+          "apps.dashboard",
 ]
 
 MIDDLEWARE = [
