@@ -1,0 +1,15 @@
+{% extends "notifications/base_email.html" %}
+{% block email_body %}
+<h2>Return/Exchange Request Update</h2>
+<p>Dear {{ order.full_name }},</p>
+<p>There is an update regarding your return/exchange request for order:</p>
+<p class="order-number">Order #{{ order.order_number }}</p>
+{% if return_request %}
+<p><strong>Request Type:</strong> {{ return_request.get_request_type_display }}</p>
+<p><strong>Status:</strong> {{ return_request.get_status_display }}</p>
+{% if return_request.admin_notes %}
+<p><strong>Note from our team:</strong> {{ return_request.admin_notes }}</p>
+{% endif %}
+{% endif %}
+<p>If you have any questions, please contact our support team.</p>
+{% endblock %}

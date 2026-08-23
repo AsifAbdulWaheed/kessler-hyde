@@ -6,6 +6,7 @@ from apps.catalog.models import Product
 from apps.orders.models import Order, OrderItem, OrderStatusHistory
 from apps.payments.models import PaymentRecord
 from apps.shipping.models import SiteSettings
+from apps.notifications.services import send_order_email, ORDER_PLACED, ADMIN_NEW_ORDER
 
 
 class InsufficientStockError(Exception):
@@ -23,16 +24,8 @@ def generate_order_number():
 
 @transaction.atomic
 def create_order(cart, customer, full_name, phone, email, address, city, postal_code, order_notes=""):
-    """
-    Server-authoritative order creation.
-    - Re-checks stock and price for every item from the database.
-    - Deducts stock atomically, with row locking to prevent race conditions.
-    - Never trusts any price/quantity value from the cart's cached session data
-      beyond WHICH product and HOW MANY — price is always recalculated here.
-    """
     site_settings = SiteSettings.objects.first()
 
-    # Step 1: Check stock for every item first (fail fast, before touching anything)
     locked_products = {}
     for item in cart:
         product = Product.objects.select_for_update().get(id=item["product"].id)
@@ -40,12 +33,11 @@ def create_order(cart, customer, full_name, phone, email, address, city, postal_
             raise InsufficientStockError(product.name)
         locked_products[product.id] = product
 
-    # Step 2: Calculate subtotal server-side using CURRENT prices
     subtotal = Decimal("0.00")
     line_items = []
     for item in cart:
         product = locked_products[item["product"].id]
-        charged_price = product.get_charged_price()  # sale-aware
+        charged_price = product.get_charged_price()
         line_total = charged_price * item["quantity"]
         subtotal += line_total
         line_items.append({
@@ -57,7 +49,6 @@ def create_order(cart, customer, full_name, phone, email, address, city, postal_
             "line_total": line_total,
         })
 
-    # Step 3: Calculate shipping server-side
     if site_settings and subtotal >= site_settings.free_shipping_threshold:
         delivery_charge = Decimal("0.00")
     elif site_settings:
@@ -67,7 +58,6 @@ def create_order(cart, customer, full_name, phone, email, address, city, postal_
 
     grand_total = subtotal + delivery_charge
 
-    # Step 4: Create the Order with a unique order_number
     order_number = generate_order_number()
     while Order.objects.filter(order_number=order_number).exists():
         order_number = generate_order_number()
@@ -89,7 +79,6 @@ def create_order(cart, customer, full_name, phone, email, address, city, postal_
         stock_deducted=False,
     )
 
-    # Step 5: Create OrderItems + deduct stock (all within this same atomic block)
     for line in line_items:
         product = line["product"]
         OrderItem.objects.create(
@@ -110,7 +99,6 @@ def create_order(cart, customer, full_name, phone, email, address, city, postal_
     order.stock_deducted = True
     order.save()
 
-    # Step 6: Record initial status history
     OrderStatusHistory.objects.create(
         order=order,
         old_status="",
@@ -120,11 +108,14 @@ def create_order(cart, customer, full_name, phone, email, address, city, postal_
         note="Order placed.",
     )
 
-    # Step 7: Create PaymentRecord (COD only, at launch)
     PaymentRecord.objects.create(
         order=order,
         method=PaymentRecord.METHOD_COD,
         status=PaymentRecord.STATUS_PENDING,
     )
+
+    # Send email notifications
+    send_order_email(ORDER_PLACED, order)
+    send_order_email(ADMIN_NEW_ORDER, order)
 
     return order

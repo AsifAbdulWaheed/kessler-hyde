@@ -1,0 +1,10 @@
+{% extends "notifications/base_email.html" %}
+{% block email_body %}
+<h2>Your Order Is On Its Way!</h2>
+<p>Dear {{ order.full_name }},</p>
+<p>Your Kessler & Hyde order has been shipped and is on its way to you.</p>
+<p class="order-number">Order #{{ order.order_number }}</p>
+<p><strong>Delivery Address:</strong><br>
+{{ order.address }}, {{ order.city }}, {{ order.postal_code }}</p>
+<p>Thank you for choosing Kessler & Hyde.</p>
+{% endblock %}

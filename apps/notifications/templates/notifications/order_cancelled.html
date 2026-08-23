@@ -1,0 +1,9 @@
+{% extends "notifications/base_email.html" %}
+{% block email_body %}
+<h2>Your Order Has Been Cancelled</h2>
+<p>Dear {{ order.full_name }},</p>
+<p>Your order has been cancelled as requested.</p>
+<p class="order-number">Order #{{ order.order_number }}</p>
+<p><strong>Grand Total:</strong> ${{ order.grand_total }}</p>
+<p>If you cancelled by mistake or need assistance, please contact our support team.</p>
+{% endblock %}

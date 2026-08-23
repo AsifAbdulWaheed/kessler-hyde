@@ -1,0 +1,34 @@
+{% extends "notifications/base_email.html" %}
+{% block email_body %}
+<h2>New Order Received!</h2>
+<p>A new order has been placed on Kessler & Hyde.</p>
+<p class="order-number">Order #{{ order.order_number }}</p>
+
+<p><strong>Customer:</strong> {{ order.full_name }}</p>
+<p><strong>Email:</strong> {{ order.email }}</p>
+<p><strong>Phone:</strong> {{ order.phone }}</p>
+<p><strong>Address:</strong> {{ order.address }}, {{ order.city }}, {{ order.postal_code }}</p>
+
+<table class="items-table">
+  <thead>
+    <tr><th>Product</th><th>Qty</th><th>Price</th></tr>
+  </thead>
+  <tbody>
+    {% for item in order.items.all %}
+    <tr>
+      <td>{{ item.product_name }}{% if item.color %} ({{ item.color }}){% endif %}</td>
+      <td>{{ item.quantity }}</td>
+      <td>${{ item.line_total }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="totals">
+  <div class="totals-row"><span>Subtotal</span><span>${{ order.subtotal }}</span></div>
+  <div class="totals-row"><span>Delivery</span><span>{% if order.delivery_charge == 0 %}Free{% else %}${{ order.delivery_charge }}{% endif %}</span></div>
+  <div class="totals-row grand"><span>Grand Total</span><span>${{ order.grand_total }}</span></div>
+</div>
+
+<a href="/admin/orders/order/{{ order.id }}/change/" class="btn">View Order in Admin</a>
+{% endblock %}

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
         "apps.core",
          "apps.cart",
           "apps.dashboard",
+            "apps.notifications",
 ]
 
 MIDDLEWARE = [
@@ -88,3 +89,6 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@kesslerandhyde.com")
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "admin@kesslerandhyde.com")

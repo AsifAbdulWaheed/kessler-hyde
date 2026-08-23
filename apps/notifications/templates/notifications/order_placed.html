@@ -1,0 +1,38 @@
+{% extends "notifications/base_email.html" %}
+{% block email_body %}
+<h2>Thank You for Your Order!</h2>
+<p>Dear {{ order.full_name }},</p>
+<p>We've received your order and it's being processed.</p>
+<p class="order-number">Order #{{ order.order_number }}</p>
+
+<table class="items-table">
+  <thead>
+    <tr><th>Product</th><th>Qty</th><th>Price</th></tr>
+  </thead>
+  <tbody>
+    {% for item in order.items.all %}
+    <tr>
+      <td>{{ item.product_name }}{% if item.color %} ({{ item.color }}){% endif %}</td>
+      <td>{{ item.quantity }}</td>
+      <td>${{ item.line_total }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="totals">
+  <div class="totals-row"><span>Subtotal</span><span>${{ order.subtotal }}</span></div>
+  <div class="totals-row"><span>Delivery</span><span>{% if order.delivery_charge == 0 %}Free{% else %}${{ order.delivery_charge }}{% endif %}</span></div>
+  <div class="totals-row grand"><span>Grand Total</span><span>${{ order.grand_total }}</span></div>
+</div>
+
+<div class="address-box">
+  <strong>Delivery Address</strong><br>
+  {{ order.full_name }}<br>
+  {{ order.address }}, {{ order.city }}, {{ order.postal_code }}<br>
+  {{ order.phone }}
+</div>
+
+<p><strong>Payment Method:</strong> Cash on Delivery (COD)</p>
+<p><strong>Status:</strong> {{ order.get_order_status_display }}</p>
+{% endblock %}

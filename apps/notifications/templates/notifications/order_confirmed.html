@@ -1,0 +1,16 @@
+{% extends "notifications/base_email.html" %}
+{% block email_body %}
+<h2>Your Order Has Been Confirmed!</h2>
+<p>Dear {{ order.full_name }},</p>
+<p>Great news — your order has been confirmed and is now being prepared.</p>
+<p class="order-number">Order #{{ order.order_number }}</p>
+<p><strong>Status:</strong> Confirmed</p>
+
+<div class="address-box">
+  <strong>Delivery Address</strong><br>
+  {{ order.address }}, {{ order.city }}, {{ order.postal_code }}<br>
+  {{ order.phone }}
+</div>
+
+<p>We'll notify you again when your order is shipped.</p>
+{% endblock %}

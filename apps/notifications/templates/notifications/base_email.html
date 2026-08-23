@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kessler & Hyde</title>
+  <style>
+    body { margin: 0; padding: 0; background-color: #FAF6EF; font-family: Georgia, serif; color: #2A211C; }
+    .wrapper { max-width: 600px; margin: 0 auto; background-color: #FFFFFF; }
+    .header { background-color: #3C2A21; padding: 24px 32px; text-align: center; }
+    .header h1 { margin: 0; color: #FFFFFF; font-size: 1.4rem; letter-spacing: 0.05em; }
+    .header p { margin: 4px 0 0; color: #B08D45; font-size: 0.8rem; letter-spacing: 0.1em; }
+    .body { padding: 32px; }
+    .body h2 { color: #3C2A21; margin-top: 0; }
+    .order-number { font-size: 1.3rem; font-weight: bold; color: #3C2A21; margin: 16px 0; }
+    .items-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    .items-table th { background-color: #FAF6EF; padding: 8px; text-align: left; font-size: 0.85rem; }
+    .items-table td { padding: 8px; border-bottom: 1px solid #E4DACB; font-size: 0.9rem; }
+    .totals { margin: 16px 0; }
+    .totals-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.9rem; }
+    .totals-row.grand { font-weight: bold; border-top: 2px solid #3C2A21; padding-top: 8px; }
+    .address-box { background-color: #FAF6EF; padding: 16px; margin: 16px 0; font-size: 0.9rem; }
+    .footer { background-color: #1B1512; padding: 24px 32px; text-align: center; color: #A99C8C; font-size: 0.8rem; }
+    .footer a { color: #B08D45; }
+    .btn { display: inline-block; background-color: #3C2A21; color: #FFFFFF; padding: 12px 24px; text-decoration: none; margin: 16px 0; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <h1>KESSLER & HYDE</h1>
+      <p>TIMELESS LEATHER, MADE TO LAST</p>
+    </div>
+    <div class="body">
+      {% block email_body %}{% endblock %}
+    </div>
+    <div class="footer">
+      <p>&copy; 2026 Kessler & Hyde. All rights reserved.</p>
+      <p>For support, reply to this email or contact us at <a href="mailto:support@kesslerandhyde.com">support@kesslerandhyde.com</a></p>
+    </div>
+  </div>
+</body>
+</html>

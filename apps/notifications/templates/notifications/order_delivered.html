@@ -1,0 +1,9 @@
+{% extends "notifications/base_email.html" %}
+{% block email_body %}
+<h2>Your Order Has Been Delivered!</h2>
+<p>Dear {{ order.full_name }},</p>
+<p>Your Kessler & Hyde order has been delivered. We hope you love your new leather goods!</p>
+<p class="order-number">Order #{{ order.order_number }}</p>
+<p>If you have any issues with your order, you can request a return or exchange within our return window.</p>
+<p>Thank you for choosing Kessler & Hyde — Timeless Leather, Made to Last.</p>
+{% endblock %}
