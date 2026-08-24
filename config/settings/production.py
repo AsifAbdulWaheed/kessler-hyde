@@ -1,7 +1,6 @@
 """
 Production settings.
-Used only when the website is deployed live — not used during
-local development on your own computer.
+Used only when the website is deployed live.
 """
 import os
 from .base import *  # noqa
@@ -25,4 +24,10 @@ EMAIL_PORT = int(os.environ.get("BREVO_SMTP_PORT", "587"))
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get("BREVO_SMTP_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("BREVO_SMTP_PASSWORD")
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@kesslerandhyde.com")
+
+# Security settings for production
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
