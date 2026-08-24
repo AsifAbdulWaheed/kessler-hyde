@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Privacy Policy — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <h1>Privacy Policy</h1>
+
+  <div class="policy-notice">
+    ⚠️ This policy is a starter template and should be reviewed by a qualified legal professional before going live.
+  </div>
+
+  <p>Last updated: 2026</p>
+
+  <h2>Information We Collect</h2>
+  <p>When you place an order or create an account with Kessler & Hyde, we collect:</p>
+  <ul>
+    <li>Full name, phone number, and email address</li>
+    <li>Shipping address</li>
+    <li>Order history and payment status</li>
+  </ul>
+
+  <h2>How We Use Your Information</h2>
+  <p>We use the information we collect to:</p>
+  <ul>
+    <li>Process and fulfill your orders</li>
+    <li>Send you order confirmations and status updates</li>
+    <li>Respond to your inquiries and support requests</li>
+    <li>Improve our website and services</li>
+  </ul>
+
+  <h2>What We Do NOT Do</h2>
+  <ul>
+    <li>We do not sell or rent your personal information to third parties</li>
+    <li>We do not send unsolicited marketing emails</li>
+    <li>We only send transactional emails related to your orders and account</li>
+  </ul>
+
+  <h2>Data Security</h2>
+  <p>We take reasonable precautions to protect your personal information. Our website uses industry-standard security practices to keep your data safe.</p>
+
+  <h2>Contact</h2>
+  <p>If you have any questions about this policy, please contact us at <a href="mailto:support@kesslerandhyde.com">support@kesslerandhyde.com</a>.</p>
+</div>
+{% endblock %}

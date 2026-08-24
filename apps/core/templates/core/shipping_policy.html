@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Shipping Policy — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <h1>Shipping & Delivery Policy</h1>
+
+  <div class="policy-notice">
+    ⚠️ This is a starter template. Please review and update with your actual shipping details before going live.
+  </div>
+
+  <p>Last updated: 2026</p>
+
+  <h2>Delivery Coverage</h2>
+  <p>We currently deliver nationwide across Pakistan.</p>
+
+  <h2>Delivery Charges</h2>
+  <p>Delivery charges are calculated at checkout based on your order total:</p>
+  <ul>
+    <li>Orders below the free shipping threshold — a flat delivery fee applies</li>
+    <li>Orders at or above the free shipping threshold — Free Delivery</li>
+  </ul>
+  <p>Current delivery charges and free shipping threshold are shown at checkout.</p>
+
+  <h2>Estimated Delivery Time</h2>
+  <p>Orders are typically delivered within 3–5 business days after confirmation. Delivery times may vary depending on your location.</p>
+
+  <h2>Order Processing</h2>
+  <ul>
+    <li>Orders are processed after confirmation</li>
+    <li>You will receive an email notification when your order is shipped</li>
+    <li>You can track your order status using your order number</li>
+  </ul>
+
+  <h2>Cash on Delivery (COD)</h2>
+  <p>We offer Cash on Delivery. Payment is collected by the delivery person upon receipt of your order.</p>
+
+  <h2>Contact</h2>
+  <p>For shipping queries, contact us at <a href="mailto:support@kesslerandhyde.com">support@kesslerandhyde.com</a>.</p>
+</div>
+{% endblock %}

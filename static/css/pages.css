@@ -1,0 +1,51 @@
+/* General Pages (About, Contact, Policy pages) */
+.page-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md) var(--space-xl);
+}
+
+.page-content h1 {
+  margin-bottom: var(--space-md);
+}
+
+.page-content h2 {
+  font-size: 1.3rem;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+}
+
+.page-content p {
+  margin-bottom: var(--space-sm);
+  line-height: 1.8;
+}
+
+.page-content ul {
+  margin: var(--space-sm) 0 var(--space-sm) var(--space-md);
+  line-height: 1.8;
+}
+
+.policy-notice {
+  background-color: #FFF8E1;
+  border-left: 4px solid var(--color-accent);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-lg);
+  font-size: 0.9rem;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+@media (min-width: 700px) {
+  .contact-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.contact-info p {
+  margin-bottom: 0.5rem;
+}

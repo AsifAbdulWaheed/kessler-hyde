@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Return & Refund Policy — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <h1>Return & Refund Policy</h1>
+
+  <div class="policy-notice">
+    ⚠️ This is a starter template. Please review and update with your actual return policy before going live.
+  </div>
+
+  <p>Last updated: 2026</p>
+
+  <h2>Return Window</h2>
+  <p>We accept return and exchange requests within <strong>14 days</strong> of delivery.</p>
+
+  <h2>Eligibility Conditions</h2>
+  <p>To be eligible for a return or exchange, items must be:</p>
+  <ul>
+    <li>Unused and unworn</li>
+    <li>In their original condition</li>
+    <li>With original tags and packaging intact</li>
+    <li>Free from signs of use, damage, or alteration</li>
+  </ul>
+
+  <h2>Defective or Damaged Items</h2>
+  <p>If you receive a defective or damaged item, please contact us immediately with photos of the damage. We will prioritize a resolution for you.</p>
+
+  <h2>How to Request a Return or Exchange</h2>
+  <ul>
+    <li><strong>Registered customers:</strong> Log in → My Orders → Select Order → Request Return/Exchange</li>
+    <li><strong>Guest customers:</strong> Visit our <a href="{% url 'returns:returns_lookup' %}">Returns page</a> and enter your Order Number and Email/Phone</li>
+  </ul>
+
+  <h2>Refunds</h2>
+  <p>Once your return is approved and received, we will process your refund. Refund timelines may vary depending on your payment method.</p>
+
+  <h2>Order Cancellations</h2>
+  <p>Orders can be self-cancelled while in Pending status. Once confirmed or shipped, please contact our support team.</p>
+
+  <h2>Contact</h2>
+  <p>For return queries, contact us at <a href="mailto:support@kesslerandhyde.com">support@kesslerandhyde.com</a>.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Terms & Conditions — Kessler & Hyde{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <h1>Terms & Conditions</h1>
+
+  <div class="policy-notice">
+    ⚠️ This is a starter template and should be reviewed by a qualified legal professional before going live.
+  </div>
+
+  <p>Last updated: 2026</p>
+
+  <h2>Acceptance of Terms</h2>
+  <p>By using the Kessler & Hyde website and placing orders, you agree to these Terms & Conditions.</p>
+
+  <h2>Products & Pricing</h2>
+  <ul>
+    <li>All prices are listed in USD</li>
+    <li>We reserve the right to change prices at any time</li>
+    <li>Product images are for illustration purposes — actual products may vary slightly</li>
+  </ul>
+
+  <h2>Orders</h2>
+  <ul>
+    <li>All orders are subject to product availability</li>
+    <li>We reserve the right to cancel any order</li>
+    <li>Order confirmation does not guarantee fulfillment if stock is unavailable</li>
+  </ul>
+
+  <h2>Cash on Delivery (COD)</h2>
+  <p>We currently offer Cash on Delivery as our payment method. Payment is due upon delivery of your order.</p>
+
+  <h2>Cancellations</h2>
+  <p>Orders may be self-cancelled while in Pending status. Once confirmed or shipped, please contact our support team for assistance.</p>
+
+  <h2>Returns & Exchanges</h2>
+  <p>Please refer to our <a href="{% url 'core:return_policy' %}">Return Policy</a> for full details.</p>
+
+  <h2>Contact</h2>
+  <p>For questions, contact us at <a href="mailto:support@kesslerandhyde.com">support@kesslerandhyde.com</a>.</p>
+</div>
+{% endblock %}

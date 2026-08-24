@@ -8,25 +8,13 @@
     <div class="footer-links">
       <h4>Shop</h4>
       <ul>
-        <li><a href="#">Men</a></li>
-        <li><a href="#">Women</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="/men/">Men</a></li>
+        <li><a href="/women/">Women</a></li>
+        <li><a href="{% url 'core:about' %}">About</a></li>
+        <li><a href="{% url 'core:contact' %}">Contact</a></li>
+        <li><a href="{% url 'orders:track_order' %}">Track Order</a></li>
+        <li><a href="{% url 'returns:returns_lookup' %}">Returns</a></li>
       </ul>
     </div>
 
     <div class="footer-links">
-      <h4>Policies</h4>
-      <ul>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms & Conditions</a></li>
-        <li><a href="#">Shipping Policy</a></li>
-        <li><a href="#">Return Policy</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>&copy; {% now "Y" %} Kessler & Hyde. All rights reserved.</p>
-  </div>
-</footer>

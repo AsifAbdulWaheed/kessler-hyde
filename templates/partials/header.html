@@ -5,27 +5,28 @@
     <nav class="main-nav" aria-label="Main navigation">
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="#">Men</a></li>
-        <li><a href="#">Women</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Best Leather Products</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="/men/">Men</a></li>
+        <li><a href="/women/">Women</a></li>
+        <li><a href="{% url 'core:about' %}">About</a></li>
+        <li><a href="/">Best Leather Products</a></li>
+        <li><a href="{% url 'core:contact' %}">Contact</a></li>
       </ul>
     </nav>
 
     <div class="header-actions">
-      <a href="#" class="cart-icon" aria-label="Cart">🛍️</a>
+      <a href="{% url 'cart:cart_detail' %}" class="cart-icon" aria-label="Cart">🛍️</a>
       <button class="hamburger" data-hamburger aria-label="Open menu" aria-expanded="false">☰</button>
     </div>
   </div>
 
   <nav class="mobile-nav" data-mobile-nav aria-label="Mobile navigation">
     <a href="/">Home</a>
-    <a href="#">Men</a>
-    <a href="#">Women</a>
-    <a href="#">About</a>
-    <a href="#">Best Leather Products</a>
-    <a href="#">Contact</a>
-    <a href="#">Cart</a>
+    <a href="/men/">Men</a>
+    <a href="/women/">Women</a>
+    <a href="{% url 'core:about' %}">About</a>
+    <a href="/">Best Leather Products</a>
+    <a href="{% url 'core:contact' %}">Contact</a>
+    <a href="{% url 'cart:cart_detail' %}">Cart</a>
+    <a href="{% url 'orders:track_order' %}">Track Order</a>
   </nav>
 </header>

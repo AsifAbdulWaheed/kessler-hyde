@@ -1,19 +1,17 @@
-from .services import create_order, InsufficientStockError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from apps.catalog.models import Product
 from apps.shipping.models import SiteSettings
 from .cart import Cart
+from .services import create_order, InsufficientStockError
 
 
 def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id, is_active=True)
-
     quantity = int(request.POST.get("quantity", 1))
     color = request.POST.get("color", "")
     size = request.POST.get("size", "")
-
     cart.add(product_id=product.id, quantity=quantity, color=color, size=size)
     messages.success(request, f"{product.name} added to cart.")
     return redirect("cart:cart_detail")
@@ -36,7 +34,6 @@ def cart_detail(request):
     cart = Cart(request)
     subtotal = cart.get_subtotal()
 
-    # Display-only shipping estimate — recalculated authoritatively at checkout
     settings_row = SiteSettings.objects.first()
     if settings_row and subtotal >= settings_row.free_shipping_threshold:
         estimated_shipping = 0
@@ -53,6 +50,8 @@ def cart_detail(request):
         "free_shipping_threshold": settings_row.free_shipping_threshold if settings_row else None,
     }
     return render(request, "cart/cart_detail.html", context)
+
+
 def checkout(request):
     cart = Cart(request)
 
@@ -88,13 +87,12 @@ def checkout(request):
                 order_notes=order_notes,
             )
         except InsufficientStockError as e:
-            messages.error(request, f"Sorry, '{e.product_name}' doesn't have enough stock for your order.")
+            messages.error(request, f"Sorry, '{e.product_name}' doesn't have enough stock.")
             return render(request, "cart/checkout.html", {"cart": cart, "subtotal": cart.get_subtotal()})
 
         cart.clear()
         return redirect("cart:order_confirmation", order_number=order.order_number)
 
-    # GET request — show the checkout form
     context = {
         "cart": cart,
         "subtotal": cart.get_subtotal(),
